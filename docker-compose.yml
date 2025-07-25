@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+  streamlit-app:
+    build:
+      context: .
+    container_name: anomaly-detector
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+    depends_on:
+      - prometheus
